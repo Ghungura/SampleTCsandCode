@@ -1,0 +1,80 @@
+public class AllTCs
+{
+static WebDriver driver;
+WebDriverWait wait=new WebDriverWait(driver, 20);
+@BeforeTest
+
+public void setUp()
+{
+System.setProperty("webdriver.chrome.driver", ".\\chromedriver.exe");
+driver= new ChromeDriver();
+driver.get(" https://dailytodo.org");
+driver.manage().window().maximize() ;
+	
+}
+@Test
+public void regressionTCs(){
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("Xpath of the Header")));
+
+//Validate Homepage of DailyTodo.org application
+
+String expectedtitle="Daily Todo- track your daily task";
+String expectedURL="dailytodo.org";
+Assert.assertEquals(driver.getTitle(),expectedtitle);
+Assert.assertEquals(driver.getCurrentURL(),expectedURL);
+Assert.assertTrue(driver.findElement(By.xpath("Xpath of the Task section")));
+Assert.assertTrue(driver.findElement(By.xpath("Xpath of the Edit link")));
+Assert.assertTrue(driver.findElement(By.xpath("Xpath of the Crete your daily Todo list button")));
+
+//Validate the Task section in the Homepage of DailyTodo.org application
+
+List<webElement> allTasks= driver.findElements(By.xpath("Xpath of the All tasks"));
+for(int i=0; i<allTasks.size(),i++)
+{
+System.out.println("Task Name is"+ allTasks.get(i));
+}
+Assert.assertTrue(driver.findElement(By.xpath("Xpath of the older link")));
+Assert.assertTrue(driver.findElement(By.xpath("Xpath of checkbox")));
+Assert.assertTrue(driver.findElement(By.xpath("Xpath of Edit link")));
+driver.findElement(By.xpath("Xpath of Edit link")).click();
+
+//Validate that user is able to create new task
+String Taskname="New Task";
+driver.findElement(By.xpath("Xpath of the Crete your daily Todo list button")).click();
+driver.findElement(By.xpath("Xpath of the serachbox")).SendKeys(Taskname);
+Assert.assertTrue(driver.findElement(By.xpath("Xpath of the Save Button")));
+Assert.assertTrue(driver.findElement(By.xpath("Xpath of the Cancel button")));
+driver.findElement(By.xpath("Xpath of the Save Button")).click();
+String newcreatedTaskName=driver.findElement(By.xpath("Xpath of the Save Button").getText();
+Assert.assertEquals(newcreatedTaskName,Taskname);
+driver.findElement(By.xpath("Xpath of checkbox")).click();
+Assert.assertTrue(driver.findElement(By.xpath("Xpath of Green circle")));
+
+}
+
+@AfterTest
+public void quitBrowser()
+{
+	driver.quit();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+}
